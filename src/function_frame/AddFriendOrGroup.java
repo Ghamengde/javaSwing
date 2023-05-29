@@ -32,14 +32,30 @@ public class AddFriendOrGroup extends JFrame
     private void search(ActionEvent e)
     {
         String user_name = textField1.getText();
-        try {
+        user_panel.removeAll();
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        user_panel.setViewportView(panel);
+        try
+        {
             ArrayList<User> user_list = Dao.add_friends_by_name(user_name);
             ArrayList<UserLabel> user_labels = Dao.add_user_to_user_label(user_list);
 
-            user_info_panel = Dao.user_label_add_to_j_scroll_pane(user_labels);
-            scrollPane1.add(user_info_panel);
-            scrollPane1.revalidate();
-            scrollPane1.repaint();
+            for(UserLabel user_label: user_labels)
+            {
+                JLabel label_ = new JLabel(user_label.getUser_email() + user_label.getUser_name());
+                label_.setPreferredSize(new Dimension(200, 30));
+                user_panel.add(label_);
+                panel.add(label_);
+            }
+            panel.revalidate();
+            panel.repaint();
+            user_panel.revalidate();
+            user_panel.repaint();
+
+            user_panel.add(panel);
+            user_panel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
         }
         catch (SQLException ex)
         {
@@ -79,6 +95,9 @@ public class AddFriendOrGroup extends JFrame
         setBackground(Color.white);
         var contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
+
+        user_panel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         tabbedPane1.setFocusable(false);
         //======== tabbedPane1 ========
@@ -159,7 +178,7 @@ public class AddFriendOrGroup extends JFrame
                 panel4.add(scrollPane1);
                 scrollPane1.setBounds(0, 100, 565, 260);
             }
-            tabbedPane1.addTab("\u627e\u7fa4", panel4);
+            tabbedPane1.addTab("找群", panel4);
         }
         contentPane.add(tabbedPane1, BorderLayout.CENTER);
         pack();

@@ -210,21 +210,4 @@ public class Dao
         return user_labels;
     }
 
-    public static JPanel user_label_add_to_j_scroll_pane(ArrayList<UserLabel> user_labels)
-    {
-        JPanel user_info_panel = new JPanel();
-        user_info_panel.setLayout(new BoxLayout(user_info_panel, BoxLayout.Y_AXIS));
-        JLabel j_label = new JLabel();
-        for(UserLabel user_label: user_labels)
-        {
-            String text = "<html>" + user_label.getUser_name() + "<br>" + user_label.getUser_email() + "</html>";
-            j_label.setText(text);
-            user_info_panel.add(j_label);
-        }
-
-        user_info_panel.revalidate();
-        user_info_panel.repaint();
-
-        return user_info_panel;
-    }
 }
